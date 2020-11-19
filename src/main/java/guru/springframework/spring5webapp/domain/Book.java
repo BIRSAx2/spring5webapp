@@ -1,8 +1,10 @@
 package guru.springframework.spring5webapp.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("ALL")
 @Entity
 public class Book {
     @Id
@@ -15,17 +17,16 @@ public class Book {
     @JoinTable(
             name = "author_book",
             joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn("author_id")
+            inverseJoinColumns = @JoinColumn(name="author_id")
     )
-    private Set<Author> author;
+    private Set<Author> authors = new HashSet<>();
 
     public Book() {
     }
 
-    public Book(String title, String isbn, Set<Author> author) {
+    public Book(String title, String isbn) {
         this.title = title;
         this.isbn = isbn;
-        this.author = author;
     }
 
     public Long getId() {
@@ -52,12 +53,12 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public Set<Author> getAuthor() {
-        return author;
+    public Set<Author> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(Set<Author> author) {
-        this.author = author;
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 
     @Override
@@ -81,7 +82,7 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", author=" + author +
+                ", authors=" + authors +
                 '}';
     }
 }
